@@ -1,4 +1,10 @@
 import { ImageResponse } from "next/og";
+import foto2 from "../public/images/FOTO_2.jpeg";
+import { readFileSync } from "fs";
+import { join } from "path";
+
+const imageBuffer = readFileSync(join(process.cwd(), "public/images/FOTO_2.jpeg"));
+const base64Image = `data:image/jpeg;base64,${imageBuffer.toString("base64")}`;
 
 export const size = {
   width: 64,
@@ -21,7 +27,7 @@ export default function Icon() {
         }}
       >
         <img
-          src="/images/FOTO_2.jpeg"
+          src={base64Image}
           alt="Icono de Cristian y Valentina"
           width={64}
           height={64}
