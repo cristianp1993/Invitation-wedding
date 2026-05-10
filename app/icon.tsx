@@ -1,10 +1,4 @@
 import { ImageResponse } from "next/og";
-import foto2 from "../public/images/FOTO_2.jpeg";
-import { readFileSync } from "fs";
-import { join } from "path";
-
-const imageBuffer = readFileSync(join(process.cwd(), "public/images/FOTO_2.jpeg"));
-const base64Image = `data:image/jpeg;base64,${imageBuffer.toString("base64")}`;
 
 export const size = {
   width: 64,
@@ -23,21 +17,19 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "transparent",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          borderRadius: "12px",
         }}
       >
-        <img
-          src={base64Image}
-          alt="Icono de Cristian y Valentina"
-          width={64}
-          height={64}
+        <span
           style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: "18px",
+            fontSize: 32,
+            fontWeight: "bold",
+            color: "white",
           }}
-        />
+        >
+          CV
+        </span>
       </div>
     ),
     size
