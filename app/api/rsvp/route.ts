@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
+    console.log("RSVP request body:", body);
 
     const res = await fetch(APPS_SCRIPT_URL, {
       method: "POST",
@@ -18,12 +19,31 @@ export async function POST(request: Request) {
       redirect: "follow",
     });
 
-    const data = await res.json();
+    console.log("Apps Script response status:", res.status);
+    console.log("Apps Script response headers:", Object.fromEntries(res.headers.entries()));
+
+    const text = await res.text();
+    console.log("Apps Script response text:", text);
+
+    if (!res.ok) {
+      return Response.json(
+        { success: false, error: `Error del script: ${res.status} - ${text}` },
+        { status: res.status }
+      );
+    }
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = { success: true, message: text };
+    }
+
     return Response.json(data);
   } catch (err) {
     console.error("RSVP error:", err);
     return Response.json(
-      { success: false, error: "Error al conectar con el servidor" },
+      { success: false, error: `Error: ${err instanceof Error ? err.message : String(err)}` },
       { status: 500 }
     );
   }
