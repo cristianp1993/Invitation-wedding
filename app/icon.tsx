@@ -28,7 +28,7 @@ export default function Icon() {
             color: "white",
           }}
         >
-          CV
+          C&V
         </span>
       </div>
     ),
