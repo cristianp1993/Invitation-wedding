@@ -271,33 +271,223 @@ body {
 .hero-opened-content {
   max-height: 0;
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(30px) scale(0.95);
   overflow: hidden;
-  transition: max-height 0.8s ease, opacity 0.5s ease, transform 0.5s ease;
+  transition: max-height 2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.5s ease, transform 1.5s ease;
 }
 
 .hero-opened-content--visible {
   max-height: 2400px;
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 .hero-open-focus {
-  animation: hero-open-focus-ring 0.7s ease;
+  animation: hero-open-focus-ring 2s ease-out;
 }
 
 @keyframes hero-open-focus-ring {
   0% {
-    transform: translateY(8px) scale(0.985);
+    transform: translateY(15px) scale(0.95);
     filter: drop-shadow(0 0 0 rgba(91, 122, 152, 0));
   }
-  60% {
-    transform: translateY(0) scale(1.005);
-    filter: drop-shadow(0 0 16px rgba(91, 122, 152, 0.22));
+  40% {
+    transform: translateY(-8px) scale(1.05);
+    filter: drop-shadow(0 0 40px rgba(91, 122, 152, 0.5));
+  }
+  70% {
+    transform: translateY(0) scale(1.02);
+    filter: drop-shadow(0 0 25px rgba(91, 122, 152, 0.3));
   }
   100% {
     transform: translateY(0) scale(1);
     filter: drop-shadow(0 0 0 rgba(91, 122, 152, 0));
+  }
+}
+
+/* ---------- Efectos de partículas al abrir sobre ---------- */
+.envelope-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  animation: particle-explode 3.5s ease-out forwards;
+}
+
+.particle--gold {
+  background: #FFD700;
+  box-shadow: 0 0 20px #FFD700;
+}
+
+.particle--silver {
+  background: #C0C0C0;
+  box-shadow: 0 0 20px #C0C0C0;
+}
+
+.particle--rose {
+  background: #FF69B4;
+  box-shadow: 0 0 20px #FF69B4;
+}
+
+.particle--blue {
+  background: #00BFFF;
+  box-shadow: 0 0 20px #00BFFF;
+}
+
+@keyframes particle-explode {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0);
+  }
+}
+
+/* ---------- Efecto de destello al abrir ---------- */
+.envelope-flash {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, 0.3) 60%, transparent 100%);
+  pointer-events: none;
+  z-index: 2147483646;
+  opacity: 0;
+  animation: flash-effect 1.2s ease-out forwards;
+}
+
+@keyframes flash-effect {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* ---------- Animación del sobre al abrir ---------- */
+.envelope-opening {
+  animation: envelope-open-anim 2s ease-out forwards;
+}
+
+.envelope-opening .hero-envelope-btn__asset {
+  animation: envelope-explode 2s ease-out forwards;
+}
+
+/* ---------- Efecto de fondo dramático al abrir ---------- */
+body.envelope-opening-active {
+  animation: body-flash 2.5s ease-out forwards;
+}
+
+@keyframes body-flash {
+  0% {
+    background: radial-gradient(ellipse at 20% 10%, #ffffff 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 40%, #ffffff 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, #ffffff 0%, transparent 45%),
+                linear-gradient(180deg, #eef1f4 0%, #d9e1ea 40%, #eef1f4 80%, #dfe5ec 100%);
+  }
+  20% {
+    background: radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.3) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 10%, #ffffff 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 40%, #ffffff 0%, transparent 50%),
+                linear-gradient(180deg, #fff8dc 0%, #ffe4b5 40%, #fff8dc 80%, #ffe4b5 100%);
+  }
+  40% {
+    background: radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.5) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 10%, #ffffff 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 40%, #ffffff 0%, transparent 50%),
+                linear-gradient(180deg, #fffacd 0%, #ffd700 40%, #fffacd 80%, #ffd700 100%);
+  }
+  60% {
+    background: radial-gradient(ellipse at 50% 50%, rgba(255, 215, 0, 0.3) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 10%, #ffffff 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 40%, #ffffff 0%, transparent 50%),
+                linear-gradient(180deg, #fff8dc 0%, #ffe4b5 40%, #fff8dc 80%, #ffe4b5 100%);
+  }
+  100% {
+    background: radial-gradient(ellipse at 20% 10%, #ffffff 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 40%, #ffffff 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 90%, #ffffff 0%, transparent 45%),
+                linear-gradient(180deg, #eef1f4 0%, #d9e1ea 40%, #eef1f4 80%, #dfe5ec 100%);
+  }
+}
+
+@keyframes envelope-open-anim {
+ 0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.4) translateY(-10px);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(0.8) translateY(-20px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0) translateY(-30px);
+    opacity: 0;
+  }
+}
+
+@keyframes envelope-explode {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1) saturate(1);
+  }
+  30% {
+    transform: scale(1.6) rotate(15deg);
+    filter: brightness(2.5) saturate(1.5) drop-shadow(0 0 50px rgba(255, 215, 0, 1));
+  }
+  60% {
+    transform: scale(2.2) rotate(-10deg);
+    filter: brightness(3) saturate(2) drop-shadow(0 0 80px rgba(255, 215, 0, 0.8));
+  }
+  100% {
+    transform: scale(3) rotate(5deg);
+    filter: brightness(4) saturate(2.5) drop-shadow(0 0 100px rgba(255, 215, 0, 0.5));
+  }
+}
+
+/* ---------- Efecto de revelación elegante ---------- */
+.hero-reveal-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 2147483645;
+  opacity: 0;
+  animation: reveal-sweep 1.5s ease-out forwards;
+}
+
+@keyframes reveal-sweep {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
   }
 }
 

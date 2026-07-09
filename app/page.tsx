@@ -10,8 +10,8 @@ const CONFIG = {
   weddingDate: "2026-11-07T17:00:00-05:00", // 7 nov 2026 5:00 pm
   songUrl: "/music/Fonseca - Prometo (LyricLetra).mp3",
   mapEmbed:
-    "https://www.google.com/maps?q=Temperadero+Los+Abuelos&output=embed",
-  mapLink: "https://maps.google.com/?q=Temperadero+Los+Abuelos",
+    "https://www.google.com/maps?q=5.0920721,-75.5937616&output=embed",
+  mapLink: "https://www.google.com/maps/place/HOTEL+EL+PASO/@5.0920721,-75.5937616,17z/data=!3m1!4b1!4m9!3m8!1s0x8e477143b55a8e99:0x9543e798a941a917!5m2!4m1!1i2!8m2!3d5.0920721!4d-75.5937616!16s%2Fg%2F11kbcmd6s6!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDcwNi4wIKXMDSoASAFQAw%3D%3D",
   whatsappConfirm:
     "https://wa.me/573000000000?text=Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Camilo%20%26%20Valentina",
   rsvpLimit: "30 de septiembre",
@@ -25,6 +25,9 @@ export default function Home() {
   useReveal(isInvitationOpen);
 
   useEffect(() => {
+    // Asegurar que la página cargue arriba del todo
+    window.scrollTo(0, 0);
+    
     const images = Array.from(document.querySelectorAll<HTMLImageElement>("img"));
     images.forEach((img, index) => {
       img.decoding = "async";
@@ -138,10 +141,61 @@ function HeroSaveTheDate({
   onOpenInvitation: () => void;
 }) {
   const sobreAbiertoRef = useRef<HTMLDivElement>(null);
+  const envelopeBtnRef = useRef<HTMLButtonElement>(null);
+
+  const createParticles = () => {
+    const colors = ['#D4AF37', '#C0C0C0', '#D4AF37', '#C0C0C0', '#D4AF37', '#C0C0C0'];
+    const container = document.createElement('div');
+    container.className = 'envelope-particles';
+    document.body.appendChild(container);
+
+    // Obtener posición del botón del sobre
+    const buttonRect = envelopeBtnRef.current?.getBoundingClientRect();
+    const centerX = buttonRect ? buttonRect.left + buttonRect.width / 2 : window.innerWidth / 2;
+    const centerY = buttonRect ? buttonRect.top + buttonRect.height / 2 : window.innerHeight / 2;
+
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      const angle = (Math.random() * 360) * (Math.PI / 180);
+      const distance = 150 + Math.random() * 300;
+      const tx = Math.cos(angle) * distance;
+      const ty = Math.sin(angle) * distance;
+      
+      particle.style.setProperty('--tx', `${tx}px`);
+      particle.style.setProperty('--ty', `${ty}px`);
+      particle.style.left = `${centerX}px`;
+      particle.style.top = `${centerY}px`;
+      particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+      particle.style.boxShadow = `0 0 20px ${particle.style.background}`;
+      particle.style.animationDelay = `${Math.random() * 0.5}s`;
+      
+      container.appendChild(particle);
+    }
+
+    setTimeout(() => container.remove(), 4000);
+  };
 
   const handleSobreClick = () => {
     if (!isInvitationOpen) {
       onOpenInvitation();
+      
+      // Crear partículas voladoras
+      createParticles();
+      
+      // Activar efecto de fondo dramático
+      document.body.classList.add('envelope-opening-active');
+      
+      // Animación del sobre cerrado
+      if (envelopeBtnRef.current) {
+        envelopeBtnRef.current.classList.add('envelope-opening');
+      }
+      
+      // Remover clase del body después de la animación
+      setTimeout(() => {
+        document.body.classList.remove('envelope-opening-active');
+      }, 2500);
     }
 
     requestAnimationFrame(() => {
@@ -149,11 +203,21 @@ function HeroSaveTheDate({
         const target = sobreAbiertoRef.current;
         if (!target) return;
         target.classList.add("hero-open-focus");
-        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        
+        // Scroll dramático hacia el contenido abierto
+        window.scrollTo({
+          top: window.scrollY + 300,
+          behavior: 'smooth'
+        });
+        
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 600);
+        
         window.setTimeout(() => {
           target.focus({ preventScroll: true });
           target.classList.remove("hero-open-focus");
-        }, 700);
+        }, 2500);
       });
     });
   };
@@ -180,6 +244,7 @@ function HeroSaveTheDate({
           <div className="relative w-full max-w-[22rem] sm:max-w-[30rem] md:max-w-[38rem] lg:max-w-[44rem]">
             <button
               type="button"
+              ref={envelopeBtnRef}
               onClick={handleSobreClick}
               className="hero-envelope-btn w-full cursor-pointer"
               aria-label="Abrir sobre"
@@ -309,12 +374,32 @@ function SectionLocation() {
           
           {/* Mapa posicionado en el medio */}
           <div className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 w-[55%] sm:w-[38%] md:w-[36%] lg:w-[35%]">
-            <iframe
-              title="Mapa ubicación"
-              src={CONFIG.mapEmbed}
-              className="w-full h-24 sm:h-32 md:h-36 lg:h-40 rounded-lg shadow-[0_8px_20px_rgba(31,51,70,0.3)] border-2 border-white/50"
-              loading="lazy"
-            />
+            {/* Sombra difuminada plateada hacia afuera */}
+            <div className="absolute -inset-3 pointer-events-none"
+                 style={{
+                   background: 'radial-gradient(ellipse at center, transparent 55%, rgba(140,150,160,0.4) 75%, rgba(105,115,125,0.55) 90%, transparent 100%)',
+                   filter: 'blur(8px)',
+                   clipPath: 'polygon(3% 1%, 12% 3%, 25% 0%, 40% 2%, 55% 0%, 70% 3%, 85% 1%, 96% 4%, 100% 12%, 98% 25%, 100% 40%, 97% 55%, 100% 70%, 98% 85%, 96% 96%, 85% 98%, 70% 100%, 55% 97%, 40% 100%, 25% 98%, 12% 100%, 4% 97%, 0% 85%, 2% 70%, 0% 55%, 3% 40%, 0% 25%, 2% 12%)'
+                 }} />
+            <div className="relative w-full h-24 sm:h-32 md:h-36 lg:h-40 overflow-hidden" 
+                 style={{
+                   boxShadow: '0 0 0 6px rgba(150,160,170,0.5), 0 0 15px 8px rgba(120,130,140,0.4), 0 0 35px rgba(105,115,125,0.45), 0 10px 40px rgba(31,51,70,0.4)',
+                   background: 'linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(235,240,245,0.98) 100%)',
+                   clipPath: 'polygon(3% 1%, 12% 3%, 25% 0%, 40% 2%, 55% 0%, 70% 3%, 85% 1%, 96% 4%, 100% 12%, 98% 25%, 100% 40%, 97% 55%, 100% 70%, 98% 85%, 96% 96%, 85% 98%, 70% 100%, 55% 97%, 40% 100%, 25% 98%, 12% 100%, 4% 97%, 0% 85%, 2% 70%, 0% 55%, 3% 40%, 0% 25%, 2% 12%)',
+                   border: 'none'
+                 }}>
+              <iframe
+                title="Mapa ubicación"
+                src={CONFIG.mapEmbed}
+                className="w-full h-full border-0"
+                loading="lazy"
+              />
+              {/* Efecto de bordes desgastados internos plateados */}
+              <div className="absolute inset-0 pointer-events-none" 
+                   style={{
+                     boxShadow: 'inset 0 0 20px 6px rgba(120,130,140,0.55), inset 0 0 40px 10px rgba(150,160,170,0.3)',
+                   }} />
+            </div>
           </div>
         </div>
       </div>
@@ -334,6 +419,9 @@ function SectionDressCode() {
         </div>
         <div className="relative mx-auto w-full mt-6 sm:mt-8">
           <img src="/images/dresscodetext.svg" alt="Dress Code Text" className="w-full h-auto drop-shadow-[0_10px_25px_rgba(20,40,70,0.2)]" />
+        </div>
+        <div className="relative mx-auto w-full mt-6 sm:mt-8">
+          <img src="/images/ColoresReservados.svg" alt="Colores Reservados" className="w-full h-auto drop-shadow-[0_10px_25px_rgba(20,40,70,0.2)]" />
         </div>
       </div>
     </section>
@@ -448,7 +536,7 @@ function SectionConfirm() {
 type RsvpStatus = "idle" | "loading" | "success" | "already-registered" | "error";
 
 function ModalConfirm({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const emptyForm = { nombre: "", documento: "", telefono: "", acompanante: "NO" };
+  const emptyForm = { nombre: "", documento: "", telefono: "", acompanante: "" };
   const [formData, setFormData] = useState(emptyForm);
   const [status, setStatus] = useState<RsvpStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -570,13 +658,10 @@ function ModalConfirm({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                   className="modal-confirm__input" placeholder="Tu número de teléfono" disabled={status === "loading"} />
               </div>
               <div className="modal-confirm__field">
-                <label htmlFor="acompanante" className="modal-confirm__label">¿Viene con acompañante?</label>
-                <select id="acompanante" value={formData.acompanante}
+                <label htmlFor="acompanante" className="modal-confirm__label">Acompañante</label>
+                <input type="text" id="acompanante" value={formData.acompanante}
                   onChange={(e) => setFormData({ ...formData, acompanante: e.target.value })}
-                  className="modal-confirm__select" disabled={status === "loading"}>
-                  <option value="NO">NO</option>
-                  <option value="SI">SI</option>
-                </select>
+                  className="modal-confirm__input" placeholder="Nombre del acompañante (opcional)" disabled={status === "loading"} />
               </div>
 
               {status === "error" && (
