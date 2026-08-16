@@ -373,7 +373,7 @@ function SectionLocation() {
           <img src="/images/Ubicacion.svg" alt="Ubicación" className="w-full h-auto min-h-[60vh] sm:min-h-[70vh] md:min-h-[75vh] lg:min-h-[80vh] object-contain drop-shadow-[0_10px_25px_rgba(20,40,70,0.2)]" />
           
           {/* Mapa posicionado en el medio */}
-          <div className="absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2 w-[55%] sm:w-[38%] md:w-[36%] lg:w-[35%]">
+          <div className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 w-[55%] sm:w-[38%] md:w-[36%] lg:w-[35%]">
             {/* Sombra difuminada plateada hacia afuera */}
             <div className="absolute -inset-3 pointer-events-none"
                  style={{
