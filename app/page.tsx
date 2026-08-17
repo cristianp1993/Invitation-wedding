@@ -536,7 +536,7 @@ function SectionConfirm() {
 type RsvpStatus = "idle" | "loading" | "success" | "already-registered" | "error";
 
 function ModalConfirm({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const emptyForm = { nombre: "", documento: "", telefono: "", acompanante: "" };
+  const emptyForm = { nombre: "", documento: "", telefono: "" };
   const [formData, setFormData] = useState(emptyForm);
   const [status, setStatus] = useState<RsvpStatus>("idle");
   const [errorMsg, setErrorMsg] = useState("");
@@ -656,12 +656,6 @@ function ModalConfirm({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
                 <input type="tel" id="telefono" required value={formData.telefono}
                   onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
                   className="modal-confirm__input" placeholder="Tu número de teléfono" disabled={status === "loading"} />
-              </div>
-              <div className="modal-confirm__field">
-                <label htmlFor="acompanante" className="modal-confirm__label">Acompañante</label>
-                <input type="text" id="acompanante" value={formData.acompanante}
-                  onChange={(e) => setFormData({ ...formData, acompanante: e.target.value })}
-                  className="modal-confirm__input" placeholder="Nombre del acompañante (opcional)" disabled={status === "loading"} />
               </div>
 
               {status === "error" && (
