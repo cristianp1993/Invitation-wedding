@@ -14,7 +14,7 @@ const CONFIG = {
   mapLink: "https://www.google.com/maps/place/HOTEL+EL+PASO/@5.0920721,-75.5937616,17z/data=!3m1!4b1!4m9!3m8!1s0x8e477143b55a8e99:0x9543e798a941a917!5m2!4m1!1i2!8m2!3d5.0920721!4d-75.5937616!16s%2Fg%2F11kbcmd6s6!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDcwNi4wIKXMDSoASAFQAw%3D%3D",
   whatsappConfirm:
     "https://wa.me/573000000000?text=Confirmo%20mi%20asistencia%20a%20la%20boda%20de%20Camilo%20%26%20Valentina",
-  rsvpLimit: "30 de septiembre",
+  rsvpLimit: "15 de septiembre",
 };
 
 /* ===========================================================================
