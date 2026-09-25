@@ -502,11 +502,11 @@ function SectionConfirm() {
         <div className="ornament text-[color:var(--ink-soft)] text-lg">
           <span>&#10086;</span>
         </div>
-        {/* <p className="mt-4 font-serif-it text-lg sm:text-xl text-[color:var(--ink-deep)] leading-relaxed">
+        <p className="mt-4 font-serif-it text-lg sm:text-xl text-[color:var(--ink-deep)] leading-relaxed">
           Por eso recuerda <strong className="font-semibold not-italic">confirmar tu asistencia</strong>
-          <br />
-          antes del <strong className="font-semibold not-italic">{CONFIG.rsvpLimit}</strong>
-        </p> */}
+          {/* <br />
+          antes del <strong className="font-semibold not-italic">{CONFIG.rsvpLimit}</strong> */}
+        </p>
 
         <div className="mt-8">
           <button
